@@ -31,6 +31,7 @@ async function searchCountry(countryName) {
         // Show loading spinner
         loadingSpinner.classList.remove("hidden");
         errorDisplay.classList.add("hidden");
+        countryInfo.innerHTML = '';
         borderingCountries.innerHTML = '';
 
         // Fetch country data
@@ -57,6 +58,7 @@ async function searchCountry(countryName) {
             }
 
             // Update bordering countries section
+            borderingCountries.innerHTML = "<h2>Bordering Countries:</h2>";
             for (const b of bordering) {
                 const c = (await b)[0];
                 borderingCountries.innerHTML += `
@@ -66,6 +68,9 @@ async function searchCountry(countryName) {
             </section>
             `;
             }
+        }
+        else {
+            borderingCountries.innerHTML = "<h2>No bordering countries.</h2>";
         }
 
 
