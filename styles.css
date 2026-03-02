@@ -1,6 +1,9 @@
 .spinner {
-    color: black;
-    background-color: white;
+    border: 16px solid lightgray;
+    border-radius: 50%;
+    border-top: 16px solid black;
+    width: 64px;
+    height: 64px;
     animation: spin 1s linear infinite; /* Required */
 }
 
@@ -18,18 +21,23 @@
 .border-grid {
     display: grid; 
     background-color: aquamarine;
-    grid-template-rows: auto auto auto;
+    grid-template-columns: max-content + 32px;
     padding: 5%;
-    border-radius: 4px;
+    border-radius: 8px;
+    .list-item {   
+        display: grid;
+        padding: 1rem;
+        color: black;
+        grid-template-columns: auto auto;
+        outline: 1px solid black;
+    }
 }
 
 .error {
-    color: red;
+    color: white;
     background-color: brown;
 }
 
 .hidden {
     display: none;
 }
-
-/* TODO: text styling */
