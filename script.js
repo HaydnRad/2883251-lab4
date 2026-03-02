@@ -13,11 +13,15 @@ console.log("script loaded");
 
 async function getCountryByName(countryName) {
     const response = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
+    if (!response.ok) 
+        throw await response.json();
     return response.json();
 }
 
 async function getCountryByCode(countryCode) {
     const response = await fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`);
+    if (!response.ok) 
+        throw response.statusText;
     return response.json();
 }
 
@@ -61,7 +65,9 @@ async function searchCountry(countryName) {
         
     } catch (error) {
         // Show error message
-        console.error(error); // TODO: not use the console
+        errorDisplay.innerHTML = `
+            ${(error.status != undefined && error.status == 404) ? "Could not find country" : toString(error)}
+        `;
     } finally {
         // Hide loading spinner
         // TODO
