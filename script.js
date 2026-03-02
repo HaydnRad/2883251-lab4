@@ -11,19 +11,27 @@ console.log("script loaded");
 // Required: Use async/await OR .then() for API calls
 // Required: Use try/catch OR .catch() for error handling
 
-async function getCountry(countryName) {
+async function getCountryByName(countryName) {
     const response = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
-    return await response.json();
+    return response.json();
+}
+
+async function getCountryByCode(countryCode) {
+    const response = await fetch(`https://restcountries.com/v3.1/alpha/${countryCode}`);
+    return response.json();
 }
 
 async function searchCountry(countryName) {
-    console.log("thing called");
     try {
         // Show loading spinner
         // TODO
 
         // Fetch country data
-        const country = (await getCountry(countryName))[0];
+        const countries = await getCountryByName(countryName)
+        if (countries.length === 0) 
+            throw "Country not found";
+
+        const country = countries[0];
         
         // Update DOM
         countryInfo.innerHTML = `
@@ -35,10 +43,22 @@ async function searchCountry(countryName) {
         `;
 
         // Fetch bordering countries
-        // TODO
-
+        let bordering = [];
+        for (const b of country.borders) {
+            bordering.push(getCountryByCode(b));
+        }
+        
         // Update bordering countries section
-        // TODO
+        borderingCountries.innerHTML = '';
+        for (const b of bordering) {
+            const c = (await b)[0];
+            borderingCountries.innerHTML += `
+                <p>${c.name.common}</p>
+                <img src="${c.flags.svg}" alt="${c.name.common} flag">
+            `;
+        }
+
+        
     } catch (error) {
         // Show error message
         console.error(error); // TODO: not use the console
